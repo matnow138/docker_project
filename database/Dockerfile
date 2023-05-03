@@ -1,0 +1,15 @@
+FROM mysql:8.0
+
+ENV MYSQL_ROOT_PASSWORD=Kodilla
+
+ENV MYSQL_DATABASE=store-database
+
+ENV MYSQL_USER=kodilla
+
+ENV MYSQL_PASSWORD=kodilla
+
+ENV MYSQL_HOST=store-database
+
+ENV MYSQL_PORT=3306
+
+EXPOSE 3306

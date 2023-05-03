@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+
+  store-database:
+    container_name: store-database
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+
+    #dockerfile: Dockerfile
+    restart: always
+    environment:
+       - MYSQL_ROOT_PASSWORD=Kodilla
+       - MYSQL_DATABASE=store-database
+       - MYSQL_USER=kodilla
+       - MYSQL_PASSWORD=kodilla
+       - MYSQL_HOST=store-database
+       - MYSQL_PORT=3306
+#        - ./env/database.env
+    ports:
+       - 3306:3306 
+    networks:
+      - store-net
+    
+
+networks:
+  store-net:
+    external: true
+    name: store-net
+      
+      

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products-api
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      component: backend
+  template:
+    metadata:
+      labels:
+        component: backend
+    spec:
+      containers:
+        - name: store-backend
+          image: matnow138/backend:1.0.4
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: database-configmap
+            - secretRef:
+                name: database-secret
+          command: ["bash","-c"]
+          args: ["./gradlew build; java -jar build/libs/products-api-0.0.1-SNAPSHOT.jar"]
+          env:
+            - name: MYSQL_PORT
+              value: "3306"
+

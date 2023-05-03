@@ -1,0 +1,73 @@
+version: '3.7'
+services:
+
+#  store-database:
+#    container_name: store-database
+#    build:
+#      context: ./database
+      #dockerfile: Dockerfile
+#    restart: always
+#    command: --default-authentication-plugin=mysql_native_password
+#    environment:
+#        - ./env/database.env
+#    ports:
+#       - 3306:3306    
+
+  frontend:
+      container_name: frontend
+      build:
+        context: ./store-frontend
+        #dockefile: Dockerfile
+      ports: 
+        - 3000:3000
+      command: npm run start
+      networks:
+        - store-net
+      
+  notification:
+      container_name: notifications-api
+      build:
+        context: ./notifications-api
+      ports:
+        - 5001:5001
+      networks:
+        - store-net
+
+  queue:
+      container_name: queue
+      image: rabbitmq:latest
+      ports:
+        - 5672:5672
+        - 15672:15672
+      networks:
+        - store-net
+        
+  products-api:
+      container_name: products-api
+      restart: on-failure
+      environment:
+       - MYSQL_ROOT_PASSWORD=Kodilla
+       - MYSQL_DATABASE=store-database
+       - MYSQL_USERNAME=kodilla
+       - MYSQL_PASSWORD=kodilla
+       - MYSQL_HOST=store-database
+       - MYSQL_PORT=3306
+       - RABBITMQ_HOST=queue
+       - RABBITMQ_PORT=5672
+       - RABBITMQ_QUEUE_NAME=QUEUE
+      build:
+        context: ./products-api
+      #dockefile: Dockerfile
+      working_dir: /usr/src/app
+      command: bash -c "./gradlew build && java -jar build/libs/products-api-0.0.1-SNAPSHOT.jar"
+      ports:
+        - 8080:8080
+      networks:
+        - store-net
+
+networks:
+  store-net:
+    name: store-net
+    
+
+

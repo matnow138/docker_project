@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: store-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: database
+  template:
+    metadata:
+      labels:
+        component: database
+    spec:
+      containers:
+        - name: store-database
+          image: mysql
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - secretRef:
+                name: database-secret
+            - configMapRef:
+                name: database-configmap
+          env:
+            - name: MYSQL_PORT
+              value: "3306"
+
+

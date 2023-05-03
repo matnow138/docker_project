@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: notification-api
+  labels:
+    component: notification
+spec:
+  containers:
+    - name: notification-api
+      image: matnow138/notification:1.0.0
+      ports:
+        - containerPort: 5001
+      env:
+        - name: RABBITMQ_HOST
+          value: "rabbitmq-cluster-ip-service"
+        - name: RABBITMQ_PORT
+          value: "5672"
+        - name: RABBITMQ_QUEUE_NAME
+          value: "QUEUE"
