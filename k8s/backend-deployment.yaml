@@ -23,8 +23,16 @@ spec:
             - secretRef:
                 name: database-secret
           command: ["bash","-c"]
-          args: ["./gradlew build; java -jar build/libs/products-api-0.0.1-SNAPSHOT.jar"]
+          args: ["./gradlew build ; java -jar build/libs/products-api-0.0.1-SNAPSHOT.jar"]
           env:
             - name: MYSQL_PORT
               value: "3306"
+            - name: MYSQL_USERNAME
+              value: kodilla
+            - name: RABBITMQ_HOST
+              value: "rabbitmq-cluster-ip-service"
+            - name: RABBITMQ_PORT
+              value: "5672"
+            - name: RABBITMQ_QUEUE_NAME
+              value: "QUEUE"
 

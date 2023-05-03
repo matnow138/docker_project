@@ -24,4 +24,13 @@ spec:
               value: "5672"
             - name: RABBITMQ_QUEUE_NAME
               value: "QUEUE"
-
+      affinity:
+        podAffinity: 
+          requiredDuringSchedulingIgnoredDuringExecution: 
+          - labelSelector:
+              matchExpressions:
+              - key: component 
+                operator: In 
+                values:
+                - queue 
+            topologyKey: "kubernetes.io/hostname"

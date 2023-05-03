@@ -9,7 +9,7 @@ spec:
     - name: store-backend
       image: matnow138/backend:1.0.4
       command: ["bash","-c"]
-      args: ["./gradlew build --info ; java -jar build/libs/products-api-0.0.1-SNAPSHOT.jar"]
+      args: ["./gradlew build  ; java -jar build/libs/products-api-0.0.1-SNAPSHOT.jar"]
       ports:
         - containerPort: 8080
       envFrom:
